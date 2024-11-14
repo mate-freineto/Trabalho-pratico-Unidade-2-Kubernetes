@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: {{ .Values.backend.image }}
+          env:
+            - name: FLASK_APP
+              value: "{{ .Values.env.FLASK_APP }}"
+            - name: FLASK_DB_TYPE
+              value: "{{ .Values.env.FLASK_DB_TYPE }}"
+            - name: FLASK_DB_USER
+              value: "{{ .Values.env.FLASK_DB_USER }}"
+            - name: FLASK_DB_NAME
+              value: "{{ .Values.env.FLASK_DB_NAME }}"
+            - name: FLASK_DB_PASSWORD
+              value: "{{ .Values.env.FLASK_DB_PASSWORD }}"
+            - name: FLASK_DB_HOST
+              value: "{{ .Values.env.FLASK_DB_HOST }}"
+            - name: FLASK_DB_PORT
+              value: "{{ .Values.env.FLASK_DB_PORT }}"          
+          ports:
+            - containerPort: {{ .Values.backend.port }}
